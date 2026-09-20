@@ -1,8 +1,8 @@
 /* ===== journey: scroll-driven camera, time of day, hotspots, look-around, sound ===== */
 scene.add(moonLight.target);
 const CH=[
-  {p:0,n:'First light'},{p:.2,n:'The plains'},{p:.42,n:'The kopje'},{p:.6,n:'Arrival'},
-  {p:.74,n:'Your tent'},{p:.87,n:'Sundowner'},{p:1,n:'The fire'}
+  {p:0,n:'First light'},{p:.2,n:'The plains'},{p:.3,n:'Up close'},{p:.42,n:'The kopje'},{p:.52,n:'The path'},
+  {p:.6,n:'Arrival'},{p:.74,n:'Your tent'},{p:.87,n:'Sundowner'},{p:1,n:'The fire'}
 ];
 const K=[
   {p:0,   pos:[0,3.4,24],     tgt:[7,6.5,-60],      h:6.4},
@@ -69,9 +69,10 @@ window.toast=toast;
 
 /* ---- hotspots ---- */
 const suiteAnch={bath:v3(S.x-2.7,FY+1.1,-181.6),bed:v3(S.x,FY+1.75,-183.6),lantern:v3(S.x+1.85,FY+1.25,-184.6),fire:v3(FIRE.x,PY+1.9,FIRE.z)};
+const WILDEBEEST_CARD={k:'The herd',t:'Wildebeest',p:'Around 1.3 million follow the rains through the Serengeti. In peak calving season roughly 8,000 calves are born each day, and most can run within minutes.',dl:[['Weight','160–260 kg'],['Top speed','About 80 km/h'],['Calving','January–March']],add:'guide'};
 const HS=[
   {p:[0,.14],a:ANCH.balloon,label:'Dawn balloon',card:{k:'06:15 · Above the plains',t:'Balloon safari at dawn',p:'Lift off before the sun clears the horizon and drift over the herds at first light, then land for a bush breakfast with sparkling wine.',dl:[['Lift-off','05:45 from the airstrip'],['Time aloft','About 60 minutes'],['Group size','Up to 8']],add:'balloon'}},
-  {p:[.12,.3],a:ANCH.herd,label:'Wildebeest',card:{k:'The herd',t:'Wildebeest',p:'Around 1.3 million follow the rains through the Serengeti. In peak calving season roughly 8,000 calves are born each day, and most can run within minutes.',dl:[['Weight','160–260 kg'],['Top speed','About 80 km/h'],['Calving','January–March']],add:'guide'}},
+  {p:[.12,.3],a:ANCH.herd,label:'Wildebeest',card:WILDEBEEST_CARD},
   {p:[.12,.3],a:ANCH.giraffe,label:'Masai giraffe',card:{k:'Tallest animal alive',t:'Masai giraffe',p:'A bull can stand 5.5 metres tall. Look for them among the acacias in the first hour of light, when they feed before the heat.',dl:[['Height','Up to 5.5 m'],['Heart','Weighs about 11 kg'],['Best seen','06:00–08:30']],add:'guide'}},
   {p:[.12,.3],a:ANCH.elephant,label:'Elephant',card:{k:'Matriarch country',t:'African elephant',p:'Herds are led by the oldest female, who remembers where water was found decades ago. They eat around 150 kg a day.',dl:[['Weight','Up to 6 tonnes'],['Herd','10–20 related females'],['Best seen','Late afternoon']],add:'guide'}},
   {p:[.3,.56],a:ANCH.lion,label:'Lion',card:{k:'On the rock',t:'The kopje pride',p:'A kopje is a lookout, and lions know it. They rest for up to 20 hours a day and choose the warm granite at midday. After dark they hunt the plain below your tent.',dl:[['Rest','16–20 hours a day'],['Pride','Up to 15 animals'],['Best seen','Dawn and dusk']],add:'night'}},
@@ -86,12 +87,43 @@ HS.forEach(h=>{
   document.body.appendChild(el);h.el=el;
   el.querySelector('button').onclick=()=>h.action?h.action():openInfo(h);
 });
+/* ---- photo plates: stills from our own footage dissolve in over the 3D scene ---- */
+const PLATES=[
+  {el:$('#plate-plains'),win:[.255,.28,.32,.345],hs:[
+    {x:.85,y:.48,label:'Plains zebra',card:{k:'Stripes like fingerprints',t:'Plains zebra',p:'No two zebras share a stripe pattern. They graze in the tall grass first, and the wildebeest that follow live on what they leave behind.',dl:[['Top speed','Up to 65 km/h'],['Stripes','Unique to each animal'],['Best seen','Morning and late afternoon']],add:'guide'}},
+    {x:.73,y:.5,label:'Wildebeest',card:WILDEBEEST_CARD}]},
+  {el:$('#plate-path'),win:[.475,.5,.54,.565],hs:[
+    {x:.51,y:.42,label:'Storm lantern',card:{k:'After dark',t:'The lantern path',p:'Lanterns mark the way once the light goes, and a ranger walks each guest to their tent. The walk from the vehicle to the deck is about thirty metres.',dl:[['Escort','Every guest, after dark'],['Walk','About 30 m']],hold:true}},
+    {x:.75,y:.3,label:'Raised deck',card:{k:'Your own deck',t:'Above the grass',p:'Each tent stands on a raised timber deck with a rail around it, so you sit above the grass with the whole plain in front of you.',dl:[['Sleeps','2–3 guests'],['Deck','Private, facing the plains']],hold:true}}]}
+];
+let platePW=0;
+PLATES.forEach(pl=>{
+  pl.pi=$('.pi',pl.el);pl.fx=+pl.el.dataset.fx;
+  pl.hs.forEach(h=>{
+    const el=document.createElement('div');el.className='hs ph'+(h.x>.9?' flip':'');el.style.left=h.x*100+'%';el.style.top=h.y*100+'%';
+    el.innerHTML=`<button type="button" aria-label="${h.label}"><span class="ring"></span><span class="lbl">${h.label}</span></button>`;
+    el.querySelector('button').onclick=()=>openInfo(h);pl.pi.appendChild(el);
+  });
+});
+function layoutPlates(){ // cover the viewport at 16:9, keeping the marked subject in view on narrow screens
+  const vw=innerWidth,vh=innerHeight,W=Math.max(vw,vh*16/9),Hh=W*9/16;
+  PLATES.forEach(pl=>Object.assign(pl.pi.style,{width:W+'px',height:Hh+'px',left:clamp(vw/2-pl.fx*W,vw-W,0)+'px',top:(vh-Hh)/2+'px',transformOrigin:`${pl.fx*100}% 60%`}));
+}
+function updatePlates(){
+  let pw=0;
+  for(const pl of PLATES){
+    const [a,b,c,d]=pl.win,w=smooth(a,b,pS)*(1-smooth(c,d,pS));pw=Math.max(pw,w);
+    pl.el.style.opacity=w.toFixed(3);pl.el.classList.toggle('on',w>.01);pl.el.classList.toggle('live',w>.5);
+    if(w>.01)pl.pi.style.transform=`scale(${(1.03+.07*clamp((pS-a)/(d-a))).toFixed(4)})`;
+  }
+  platePW=pw;
+}
 const _v=new THREE.Vector3();
 function updateHotspots(){
   camera.updateMatrixWorld();
   const W=innerWidth,Hh=innerHeight;
   for(const h of HS){
-    const w=smooth(h.p[0]-.02,h.p[0]+.02,pS)*(1-smooth(h.p[1]-.02,h.p[1]+.02,pS));
+    const w=smooth(h.p[0]-.02,h.p[0]+.02,pS)*(1-smooth(h.p[1]-.02,h.p[1]+.02,pS))*(1-platePW);
     _v.copy(h.a).project(camera);
     const vis=w>.02&&_v.z<1&&_v.z>0&&Math.abs(_v.x)<.96&&Math.abs(_v.y)<.9;
     h.el.style.opacity=vis?w:0;
@@ -145,7 +177,7 @@ function updateAudio(t){if(!AU.on)return;AU.wind.gain.value=.045+.03*Math.sin(t*
 /* ---- main loop ---- */
 function resize(){
   const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;
-  camera.fov=w/h<.9?74:w/h<1.4?64:58;camera.updateProjectionMatrix();measure();
+  camera.fov=w/h<.9?74:w/h<1.4?64:58;camera.updateProjectionMatrix();measure();layoutPlates();
 }
 addEventListener('resize',resize);resize();
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
@@ -177,8 +209,8 @@ function frame(now){
 
   if(pS<.58)updateHerds(dt,tt);
   updateSingles(tt);updateBalloons(tt,pS);updateAtmosphere(dt,tt);updateAudio(tt);
-  updateHotspots();
-  renderer.render(scene,camera);
+  updatePlates();updateHotspots();
+  if(platePW<.985)renderer.render(scene,camera);
 
   // HUD
   const hr=Math.floor(s.h),mn=Math.floor((s.h-hr)*60/5)*5;

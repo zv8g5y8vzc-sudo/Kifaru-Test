@@ -19,6 +19,15 @@ button{font:inherit;color:inherit;cursor:pointer}
 em{font-style:italic;color:var(--gold)}
 
 #gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+#plates{position:fixed;inset:0;z-index:0;pointer-events:none}
+.plate{position:absolute;inset:0;overflow:hidden;opacity:0;visibility:hidden;background:var(--ink)}
+.plate.on{visibility:visible}
+.plate .pi{position:absolute;will-change:transform}
+.plate .pi img{display:block;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none}
+.plate .pi::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(12,9,18,.6),rgba(12,9,18,.12) 55%,transparent),linear-gradient(transparent 62%,rgba(12,9,18,.55))}
+.hs.ph{position:absolute;opacity:1;z-index:3}
+.plate.live .hs.ph{pointer-events:auto}
+.hs.ph.flip button{flex-direction:row-reverse;transform:translate(calc(-100% + 17px),-17px)}
 .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 50%,rgba(10,8,16,.55) 100%)}
 #loader{position:fixed;inset:0;z-index:100;background:var(--ink);display:grid;place-items:center;transition:opacity 1.2s ease,visibility 1.2s;animation:loaderOut 0s 7s forwards}
 #loader.done{opacity:0;visibility:hidden}
@@ -101,7 +110,8 @@ body.in-reserve .hud,body.in-reserve .rail,body.in-reserve .hs,body.in-reserve #
 #toast.show{opacity:1;transform:translate(-50%,0)}
 
 /* reserve */
-.reserve{position:relative;z-index:6;background:linear-gradient(180deg,transparent,rgba(17,14,24,.86) 240px);padding:200px clamp(16px,5vw,64px) 60px}
+.reserve{position:relative;isolation:isolate;z-index:6;background:linear-gradient(180deg,transparent,rgba(17,14,24,.86) 240px);padding:200px clamp(16px,5vw,64px) 60px}
+.reserve::before{content:"";position:absolute;z-index:-1;inset:220px 0 0 0;background:url(img/camp.jpg) center/cover;opacity:.2;-webkit-mask-image:linear-gradient(transparent,#000 200px);mask-image:linear-gradient(transparent,#000 200px);pointer-events:none}
 .wrap{max-width:1180px;margin:0 auto}
 .reserve .head{display:flex;flex-direction:column;gap:16px;max-width:680px;margin-bottom:44px}
 .reserve h2{font-size:clamp(42px,6vw,84px)}

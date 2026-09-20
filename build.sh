@@ -21,7 +21,9 @@ THREE='<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.m
   cat dist/index.html | sed '1,/^<\/style>/d'
   echo '</body></html>'
 } > dist/preview.html
-mkdir -p docs
+mkdir -p docs dist/img docs/img
+cp src/img/*.jpg dist/img/
+cp src/img/*.jpg docs/img/
 cp dist/preview.html docs/index.html
 touch docs/.nojekyll
 wc -c dist/index.html docs/index.html

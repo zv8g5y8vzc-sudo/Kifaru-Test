@@ -1,0 +1,32 @@
+# Source video (large; the stills in src/img/ were taken from it)
+*.MOV
+*.mov
+*.mp4
+*.m4v
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Claude Code local files
+.claude/
+
+# Logs and temp
+*.log
+tmp/
+*.tmp
+
+# Node, in case you add tooling later
+node_modules/
+
+# Local screenshots and test pages
+*.png
+!assets/**/*.png
+screenshots/
+
+# dist/ and docs/ are NOT ignored: GitHub Pages serves docs/

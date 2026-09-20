@@ -10,12 +10,15 @@ The lodge, its name, prices, availability and policies are all invented placehol
 | ----- | ------------ | --------------------------------------------------------- |
 | 06:20 | First light  | Sunrise over acacias, a hot-air balloon                   |
 | 09:30 | The plains   | Wildebeest and zebra herds, giraffes, elephants           |
+| 11:45 | Up close     | **Real footage:** zebra and wildebeest on the plains      |
 | 14:40 | The kopje    | The lodge on its granite outcrop                          |
+| 15:55 | The path     | **Real footage:** the lantern path and a tent on its deck |
 | 16:30 | Arrival      | The walk up onto the deck                                 |
 | 17:30 | Your tent    | Inside the suite: bed, copper bath, a lantern to light    |
 | 18:40 | Sundowner    | Looking back over the plains at sunset                    |
 | 20:30 | The fire     | Stars, moon, sparks and fireflies                         |
 
+- **Real photos:** two chapters dissolve from the 3D scene into stills from real Serengeti footage, with clickable hotspots on the photos. A third still sits faintly behind the booking form.
 - **Look around:** move the mouse, or drag the scene.
 - **Hotspots:** markers open cards about the animals and the suite. Some cards have an "Add to my stay" button.
 - **Sound:** optional ambient audio (wind, birds, crickets, fire), synthesised in the browser and off by default.
@@ -26,7 +29,7 @@ The lodge, its name, prices, availability and policies are all invented placehol
 - Plain HTML, CSS and JavaScript, with no framework and no bundler.
 - [Three.js r128](https://threejs.org/) loaded from cdnjs.
 - Fonts from Google Fonts: Instrument Serif, Hanken Grotesk and DM Mono.
-- All models, textures and audio are generated in code, so there are no image or audio assets.
+- The 3D scene and audio are generated in code. The only image assets are three stills in `src/img/`.
 
 ## Project layout
 
@@ -39,14 +42,21 @@ src/
   world-3.js   lodge, suite interior, pool, fire, atmosphere
   journey.js   camera path, scroll, hotspots, look-around, sound
   booking.js   pricing, tent and add-on selection, checkout
+  img/         three stills taken from the source video (plains, path, camp)
 build.sh       assembles src/ into dist/
 shot.sh        headless-Chrome screenshot helper (macOS)
 dist/
+  img/         copy of src/img/
   index.html   page fragment (no <html>/<head>), for the Claude artifact viewer
   preview.html full standalone page
 docs/
+  img/         copy of src/img/
   index.html   copy of preview.html, served by GitHub Pages
 ```
+
+## Source footage
+
+The stills were taken from a phone video, `IMG_1521.MOV`. The video is large, so it is git-ignored and is not in the repo. To use different images, replace `plains.jpg`, `path.jpg` and `camp.jpg` in `src/img/` (16:9, about 1920 px wide, under 700 KB each) and run `bash build.sh`. Hotspot positions for the photos are set in `PLATES` in `src/journey.js`.
 
 ## Build and run
 
