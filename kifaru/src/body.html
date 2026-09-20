@@ -1,0 +1,173 @@
+<div id="loader"><div><b>Kifaru Kopje</b>Preparing your journey</div></div>
+<canvas id="gl" aria-label="Interactive 3D view of the Serengeti and Kifaru Kopje Lodge"></canvas>
+<div class="vignette"></div>
+
+<header class="top" id="top">
+  <a class="brand" href="#top" aria-label="Kifaru Kopje Lodge, back to start">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20 9 6l4 7 3-4 6 11Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="17.5" cy="5" r="1.8" fill="#f08a2e"/></svg>
+    Kifaru Kopje
+  </a>
+  <nav>
+    <button class="chip hide-sm" id="soundBtn" aria-pressed="false" type="button">Sound off</button>
+    <a class="chip" id="navCta" href="#reserve" style="border-color:var(--ember)">Reserve · from $920</a>
+  </nav>
+</header>
+
+<div class="hud" aria-hidden="true">
+  <span id="hud-time">06:20</span>
+  <span id="hud-name">First light</span>
+  <span class="sub">Central Serengeti · 2°25′S 34°49′E · 1,620 m</span>
+</div>
+<nav class="rail" id="rail" aria-label="Journey chapters"></nav>
+
+<main class="journey" id="journey">
+
+  <section class="chapter" style="--p:0" data-ch="0">
+    <div class="panel">
+      <div class="eyebrow">06:20 · First light</div>
+      <h1>Wake up <em>inside</em> the Serengeti.</h1>
+      <p>Six canvas tents on a granite outcrop in the central plains. Twelve guests, one rock, and 14,750 km² of wilderness in every direction.</p>
+      <div class="row">
+        <button class="btn" type="button" data-go="1">Begin the journey</button>
+        <a class="btn ghost" href="#reserve">Check dates</a>
+      </div>
+      <div class="hint">Tap the glowing markers as you go</div>
+    </div>
+    <div class="cue">Scroll · the day moves with you</div>
+  </section>
+
+  <section class="chapter right" style="--p:.2" data-ch="1">
+    <div class="panel">
+      <div class="eyebrow">09:30 · The plains</div>
+      <h2>1.3 million wildebeest. One long road.</h2>
+      <p>The herds follow the rain in a loop through here. Our guides read the plains at dawn, so your first drive lands where the animals are, not where the brochure says.</p>
+      <div class="hint">Tap a marker to meet the neighbours</div>
+    </div>
+  </section>
+
+  <section class="chapter" style="--p:.42" data-ch="2">
+    <div class="panel">
+      <div class="eyebrow">14:40 · The kopje</div>
+      <h2>A rock older than the plains.</h2>
+      <p>Kopjes are granite islands rising out of the grass. The Dutch word means “little head”. Lions sleep on them, and we built our tents on one.</p>
+      <div class="facts">
+        <span><b>1,620 m</b>Elevation</span>
+        <span><b>6</b>Tents</span>
+        <span><b>12</b>Guests, max</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter right" style="--p:.6" data-ch="3">
+    <div class="panel">
+      <div class="eyebrow">16:30 · Arrival</div>
+      <h2>Six tents. No fences. One very good bath.</h2>
+      <p>Leave your shoes on the deck. Your bags are already in the tent, the kettle is on, and the walk from the vehicle is thirty metres with a ranger at your side.</p>
+    </div>
+  </section>
+
+  <section class="chapter" style="--p:.74" data-ch="4">
+    <div class="panel">
+      <div class="eyebrow">17:30 · Your tent</div>
+      <h2>The last hour of light comes in sideways.</h2>
+      <p>48 m² of canvas, teak and copper. A bed under a net, a bath you can fill facing the plains, and a deck where the sundowner arrives before you ask.</p>
+      <div class="row">
+        <button class="btn" type="button" data-hold="kopje">Hold this tent</button>
+        <button class="btn ghost" type="button" id="lanternBtn">Light the lantern</button>
+      </div>
+      <div class="hint">Look around: drag the scene, or tap a marker</div>
+    </div>
+  </section>
+
+  <section class="chapter right" style="--p:.87" data-ch="5">
+    <div class="panel">
+      <div class="eyebrow">18:40 · Sundowner</div>
+      <h2>The sun goes down in one long minute.</h2>
+      <p>At two degrees south, dusk lasts barely twenty minutes. Gin, rooibos or something stronger, on the rock, while the plain turns from gold to violet.</p>
+    </div>
+  </section>
+
+  <section class="chapter" style="--p:1" data-ch="6">
+    <div class="panel">
+      <div class="eyebrow">20:30 · The fire</div>
+      <h2>Nothing here is loud, except the night.</h2>
+      <p>Wood smoke, a hyena calling somewhere down the slope, and more stars than you have seen in one place. Your host tells the story of the rock. Then you sleep.</p>
+      <div class="row">
+        <a class="btn" href="#reserve">Reserve your nights</a>
+      </div>
+      <div class="hint" style="text-transform:none;letter-spacing:.04em">From $920 per person per night, full board.</div>
+    </div>
+  </section>
+</main>
+
+<div id="info" role="dialog" aria-live="polite" aria-labelledby="infoTitle">
+  <button class="x" type="button" aria-label="Close" id="infoX">×</button>
+  <div class="k" id="infoK"></div>
+  <h3 id="infoTitle"></h3>
+  <p id="infoP"></p>
+  <dl id="infoDl"></dl>
+  <div class="row" id="infoRow"></div>
+</div>
+<div id="toast" role="status"></div>
+
+<section class="reserve" id="reserve">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Reserve</div>
+      <h2>Choose your nights on the rock.</h2>
+      <p>Rates are per person per night, sharing, full board, with two game drives a day. Pay a 30% deposit now; the balance is due 60 days before you arrive.</p>
+    </div>
+
+    <div class="grid">
+      <form id="stay" class="stay" onsubmit="return false">
+        <fieldset>
+          <legend>When</legend>
+          <div class="fields">
+            <label class="f" for="cin">Arrive<input type="date" id="cin"></label>
+            <label class="f" for="cout">Depart<input type="date" id="cout"></label>
+          </div>
+          <div class="season" id="season"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Who</legend>
+          <div class="steppers">
+            <div class="step"><span>Adults<small>16 and over</small></span><div><button type="button" data-step="adults" data-d="-1" aria-label="Fewer adults">−</button><output id="adults">2</output><button type="button" data-step="adults" data-d="1" aria-label="More adults">+</button></div></div>
+            <div class="step"><span>Children<small>6–15 · half rate</small></span><div><button type="button" data-step="kids" data-d="-1" aria-label="Fewer children">−</button><output id="kids">0</output><button type="button" data-step="kids" data-d="1" aria-label="More children">+</button></div></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Where you sleep</legend>
+          <div class="tents" id="tents"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Make it yours</legend>
+          <div class="xps" id="xps"></div>
+        </fieldset>
+      </form>
+
+      <aside class="summary" aria-label="Your stay">
+        <h3>Your stay</h3>
+        <div class="lines" id="lines"></div>
+        <div class="total"><span>Total</span><b id="total">$0</b></div>
+        <div class="dep" id="dep"></div>
+        <button class="btn" type="button" id="reserveBtn">Reserve · pay deposit</button>
+        <div class="trust"><span>Free date changes to 90 days</span><span>Deposit refundable to 60 days</span><span>Air transfer available</span><span>Family-run since 2009</span></div>
+        <p class="fine">Sample rates and availability for this demonstration. No payment is taken on this page.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div><b>Kifaru Kopje Lodge</b><br>Central Serengeti, Tanzania · 2°25′S 34°49′E</div>
+    <div>Nearest airstrip: 25 minutes by vehicle<br>Best months: June–October &amp; January–March</div>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="sheet" id="sheet"></div>
+</div>

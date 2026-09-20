@@ -1,0 +1,26 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Claude Code local files
+.claude/
+
+# Logs and temp
+*.log
+tmp/
+*.tmp
+
+# Node, in case you add tooling later
+node_modules/
+
+# Local screenshots and test pages
+*.png
+!assets/**/*.png
+screenshots/
+
+# dist/ is NOT ignored: GitHub Pages serves the built files
