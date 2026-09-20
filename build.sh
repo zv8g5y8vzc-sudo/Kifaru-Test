@@ -1,5 +1,6 @@
 #!/bin/bash
-# Assembles src/* into dist/index.html (artifact-ready fragment) and dist/preview.html (full document)
+# Assembles src/* into dist/index.html (artifact-ready fragment), dist/preview.html (full document)
+# and docs/index.html (the same full document, served by GitHub Pages)
 set -e
 cd "$(dirname "$0")"
 FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">'
@@ -20,4 +21,7 @@ THREE='<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.m
   cat dist/index.html | sed '1,/^<\/style>/d'
   echo '</body></html>'
 } > dist/preview.html
-wc -c dist/index.html
+mkdir -p docs
+cp dist/preview.html docs/index.html
+touch docs/.nojekyll
+wc -c dist/index.html docs/index.html

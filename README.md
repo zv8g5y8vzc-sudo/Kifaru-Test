@@ -44,6 +44,8 @@ shot.sh        headless-Chrome screenshot helper (macOS)
 dist/
   index.html   page fragment (no <html>/<head>), for the Claude artifact viewer
   preview.html full standalone page
+docs/
+  index.html   copy of preview.html, served by GitHub Pages
 ```
 
 ## Build and run
@@ -59,7 +61,7 @@ open dist/preview.html
 
 ## Deploy to GitHub Pages
 
-Pages serves from the repo root or `/docs` and expects an `index.html`. `dist/preview.html` is the full page but has the wrong name and location, so add a step to `build.sh` that writes it to `docs/index.html`. Then in the repo go to **Settings → Pages → Deploy from a branch**, and choose your branch and the `/docs` folder.
+`bash build.sh` also writes the full page to `docs/index.html` (plus an empty `docs/.nojekyll`). Commit `docs/`, then in the repo go to **Settings → Pages → Deploy from a branch**, and choose your branch and the `/docs` folder. The site will be at `https://<username>.github.io/<repo>/`.
 
 ## Before going live
 
